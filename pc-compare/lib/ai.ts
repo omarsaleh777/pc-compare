@@ -27,7 +27,7 @@ export async function generateProductDescription(product: {
     .map(([k, v]) => `${k}: ${v}`)
     .join(", ");
 
-  const model = client.getGenerativeModel({ model: "gemini-2.0-flash" });
+  const model = client.getGenerativeModel({ model: "gemini-2.5-flash" });
 
   const result = await model.generateContent(
     `Write a 2-sentence product description for a PC component listing.
