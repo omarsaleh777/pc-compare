@@ -47,7 +47,7 @@ export default async function Home() {
       <section className="mb-12">
         <h2 className="text-xl font-bold mb-4">Featured Products</h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-          {featured.map((product) => (
+          {featured.map((product: any) => (
             <Link
               key={product.id}
               href={`/product/${product.id}`}
@@ -79,7 +79,7 @@ export default async function Home() {
       <section className="mb-12">
         <h2 className="text-xl font-bold mb-4">Best Value Picks</h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-          {bestValue.map((product) => (
+          {bestValue.map((product: any) => (
             <Link
               key={product.id}
               href={`/product/${product.id}`}
