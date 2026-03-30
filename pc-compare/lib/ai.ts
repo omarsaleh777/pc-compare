@@ -60,7 +60,7 @@ export async function generateComparisonSummary(
     (p) => `- ${p.name}: $${p.price}, ${p.rating}/5 stars, specs: ${p.specs}`
   );
 
-  const model = client.getGenerativeModel({ model: "gemini-2.0-flash" });
+  const model = client.getGenerativeModel({ model: "gemini-2.5-flash" });
 
   const result = await model.generateContent(
     `Compare these PC components in 3 sentences. Mention which offers the best value, the performance leader, and who each is best suited for. Be direct and helpful.
