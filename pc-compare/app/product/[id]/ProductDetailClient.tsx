@@ -15,7 +15,7 @@ interface Product {
   affiliateUrl: string;
   specs: string;
   description: string | null;
-  lastUpdated: string;
+  lastUpdated: Date;
 }
 
 export default function ProductDetailClient({ product }: { product: Product }) {
@@ -93,11 +93,10 @@ export default function ProductDetailClient({ product }: { product: Product }) {
             </a>
             <button
               onClick={handleToggleCompare}
-              className={`py-2 px-4 rounded-lg text-sm border ${
-                isInCompare
+              className={`py-2 px-4 rounded-lg text-sm border ${isInCompare
                   ? "bg-blue-100 border-blue-300 text-blue-700"
                   : "hover:bg-gray-100"
-              }`}
+                }`}
             >
               {isInCompare ? "✓ In Compare" : "+ Add to Compare"}
             </button>
