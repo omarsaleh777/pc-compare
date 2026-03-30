@@ -1,5 +1,5 @@
 import "dotenv/config";
-import { PrismaClient } from "../generated/prisma/client";
+import { PrismaClient } from "@prisma/client";
 import { PrismaBetterSqlite3 } from "@prisma/adapter-better-sqlite3";
 import { generateAffiliateLink } from "../lib/affiliate";
 import { calculateBestValue } from "../lib/bestValue";
@@ -7,7 +7,7 @@ import { calculateBestValue } from "../lib/bestValue";
 const adapter = new PrismaBetterSqlite3({
   url: process.env.DATABASE_URL || "file:./dev.db",
 });
-const prisma = new PrismaClient({ adapter });
+const prisma = new PrismaClient();
 
 const products = [
   // ============== RAM (10 products) ==============
