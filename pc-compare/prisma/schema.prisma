@@ -1,0 +1,30 @@
+// prisma/schema.prisma
+
+generator client {
+  provider = "prisma-client"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "sqlite"
+}
+
+model Product {
+  id           String   @id @default(cuid())
+  name         String
+  category     String   // "ram" | "cpu" | "gpu" | "motherboard" | "storage" | "case" | "cooling" | "psu"
+  price        Float
+  rating       Float    // 0.0 – 5.0
+  reviewCount  Int      @default(0)
+  imageUrl     String
+  productUrl   String   // Original Amazon URL
+  affiliateUrl String   // Generated affiliate URL
+  specs        String   // JSON string — flexible per category
+  description  String?  // AI-generated description (cached)
+  bestValue    Float    // Calculated: normalizedRating / normalizedPrice
+  lastUpdated  DateTime @default(now())
+  featured     Boolean  @default(false)
+  inStock      Boolean  @default(true)
+
+  @@index([category])
+}
