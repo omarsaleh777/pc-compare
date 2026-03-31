@@ -387,7 +387,7 @@ const products = [
     rating: 4.7,
     reviewCount: 4560,
     imageUrl: "https://picsum.photos/seed/mb4/400/400",
-    productUrl: "https://www.amazon.com/dp/B0BHCJQB8V",
+    productUrl: "https://amzn.eu/d/0fL0heHC",
     specs: JSON.stringify({ socket: "LGA1700", chipset: "Z790", formFactor: "ATX", memorySlots: 4, maxMemory: "128GB", m2Slots: 4, wifi: "WiFi 6E" }),
     featured: false,
   },
