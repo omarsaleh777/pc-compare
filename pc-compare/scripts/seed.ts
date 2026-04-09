@@ -381,7 +381,7 @@ const products = [
     featured: false,
   },
   {
-    name: "MSI PRO Z790-A WiFi DDR5",
+    name: "MSI PRO Z790-P WiFi DDR5",
     category: "motherboard",
     price: 219.99,
     rating: 4.7,
