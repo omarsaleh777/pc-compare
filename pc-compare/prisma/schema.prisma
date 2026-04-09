@@ -12,7 +12,7 @@ datasource db {
 
 model Product {
   id           String   @id @default(cuid())
-  name         String
+  name         String   @unique
   category     String   // "ram" | "cpu" | "gpu" | "motherboard" | "storage" | "case" | "cooling" | "psu"
   price        Float
   rating       Float    // 0.0 – 5.0
@@ -23,7 +23,7 @@ model Product {
   specs        String   // JSON string — flexible per category
   description  String?  // Optional product description
   bestValue    Float    // Calculated: normalizedRating / normalizedPrice
-  lastUpdated  DateTime @default(now())
+  lastUpdated  DateTime @default(now()) @updatedAt
   featured     Boolean  @default(false)
   inStock      Boolean  @default(true)
 
