@@ -1,8 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useState, useEffect } from "react";
-import { getCompareIds, toggleCompare } from "@/lib/compare";
+import { useCompareStore } from "@/lib/store";
 
 interface Product {
   id: string;
@@ -24,19 +23,10 @@ const CATEGORY_LABELS: Record<string, string> = {
 };
 
 export default function ProductDetailClient({ product }: { product: Product }) {
-  const [compareIds, setCompareIds] = useState<string[]>([]);
-
-  useEffect(() => {
-    setCompareIds(getCompareIds());
-  }, []);
+  const { ids, toggle } = useCompareStore();
+  const isInCompare = ids.includes(product.id);
 
   const specs = JSON.parse(product.specs) as Record<string, string>;
-  const isInCompare = compareIds.includes(product.id);
-
-  function handleToggleCompare() {
-    const newIds = toggleCompare(product.id);
-    setCompareIds([...newIds]);
-  }
 
   return (
     <main className="max-w-[1200px] mx-auto px-6 lg:px-8 py-10">
@@ -88,7 +78,7 @@ export default function ProductDetailClient({ product }: { product: Product }) {
               Buy on Amazon
             </a>
             <button
-              onClick={handleToggleCompare}
+              onClick={() => toggle(product.id)}
               className={`py-3 px-5 rounded-lg font-label font-bold text-sm border transition-all active:scale-95 ${
                 isInCompare
                   ? "bg-primary/10 border-primary/30 text-primary"

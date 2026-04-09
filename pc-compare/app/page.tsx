@@ -3,6 +3,7 @@ import HeroSection from "@/components/home/HeroSection";
 import BentoCategoryGrid from "@/components/home/BentoCategoryGrid";
 import LiveTicker from "@/components/home/LiveTicker";
 import PrecisionDealsSection from "@/components/home/PrecisionDealsSection";
+import BottleneckCalculator from "@/components/BottleneckCalculator";
 
 export const metadata = {
   title: "PC Compare — Precision Silicon Architect",
@@ -32,6 +33,7 @@ export default async function Home() {
       <BentoCategoryGrid />
       <LiveTicker />
       <PrecisionDealsSection products={featuredDeals} />
+      <BottleneckCalculator />
     </main>
   );
 }

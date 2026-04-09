@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import CompareTable from "@/components/CompareTable";
-import { getCompareIds, toggleCompare } from "@/lib/compare";
+import { useCompareStore } from "@/lib/store";
 
 interface Product {
   id: string;
@@ -15,19 +15,18 @@ interface Product {
 }
 
 export default function ComparePage() {
+  const { ids, remove } = useCompareStore();
   const [products, setProducts] = useState<Product[]>([]);
-  const [compareIds, setCompareIds] = useState<string[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const ids = getCompareIds();
-    setCompareIds(ids);
-
     if (ids.length === 0) {
+      setProducts([]);
       setLoading(false);
       return;
     }
 
+    setLoading(true);
     fetch(`/api/compare?ids=${ids.join(",")}`)
       .then((res) => res.json())
       .then((data) => {
@@ -35,13 +34,7 @@ export default function ComparePage() {
         setLoading(false);
       })
       .catch(() => setLoading(false));
-  }, []);
-
-  function handleRemove(id: string) {
-    const newIds = toggleCompare(id);
-    setCompareIds([...newIds]);
-    setProducts((prev) => prev.filter((p) => p.id !== id));
-  }
+  }, [ids]);
 
   return (
     <main className="max-w-[1400px] mx-auto px-6 lg:px-8 py-10">
@@ -49,7 +42,7 @@ export default function ComparePage() {
         Compare Products
       </h1>
       <p className="text-on-surface-variant text-sm mb-8 font-label tracking-wide">
-        {compareIds.length}/4 products selected
+        {ids.length}/4 products selected
       </p>
 
       {loading ? (
@@ -85,7 +78,7 @@ export default function ComparePage() {
               >
                 {p.name.slice(0, 40)}
                 <button
-                  onClick={() => handleRemove(p.id)}
+                  onClick={() => remove(p.id)}
                   className="text-error hover:text-on-error-container ml-1 transition-colors"
                 >
                   ×
@@ -121,7 +114,7 @@ export default function ComparePage() {
               >
                 {p.name.slice(0, 30)}...
                 <button
-                  onClick={() => handleRemove(p.id)}
+                  onClick={() => remove(p.id)}
                   className="text-error hover:text-on-error-container ml-1 transition-colors"
                 >
                   ×

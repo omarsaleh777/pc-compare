@@ -4,7 +4,6 @@ import { useEffect, useState, useCallback, useRef } from "react";
 import { useParams, useSearchParams } from "next/navigation";
 import ProductCard from "@/components/ProductCard";
 import SortFilter from "@/components/SortFilter";
-import { getCompareIds, toggleCompare } from "@/lib/compare";
 import { categories } from "@/components/CategoryGrid";
 
 interface Product {
@@ -31,9 +30,9 @@ export default function CategoryPage() {
   const [sort, setSort] = useState("best_value");
   const [minPrice, setMinPrice] = useState("");
   const [maxPrice, setMaxPrice] = useState("");
+  const [brand, setBrand] = useState("");
   const [search, setSearch] = useState(initialSearch);
   const [debouncedSearch, setDebouncedSearch] = useState(initialSearch);
-  const [compareIds, setCompareIds] = useState<string[]>([]);
   const debounceTimer = useRef<NodeJS.Timeout | null>(null);
 
   const categoryInfo = categories.find((c) => c.slug === slug);
@@ -67,20 +66,31 @@ export default function CategoryPage() {
     fetchProducts();
   }, [fetchProducts]);
 
-  useEffect(() => {
-    setCompareIds(getCompareIds());
-  }, []);
+  // Client-side brand filter (applied on top of API results)
+  const filteredProducts = brand
+    ? products.filter((p) => {
+        // Extract brand from product name (first word or known brands)
+        const nameLower = p.name.toLowerCase();
+        const brandLower = brand.toLowerCase();
+        return nameLower.includes(brandLower);
+      })
+    : products;
 
-  function handleToggleCompare(id: string) {
-    const newIds = toggleCompare(id);
-    setCompareIds([...newIds]);
-  }
+  // Extract brands from loaded products
+  const brands = Array.from(
+    new Set(products.map((p) => {
+      // Try to extract brand from name
+      const firstWord = p.name.split(" ")[0];
+      return firstWord;
+    }))
+  ).sort();
 
-  const bestValueId = products.length > 0
-    ? products.reduce((a, b) => (a.bestValue > b.bestValue ? a : b)).id
+  // Determine best value and cheapest
+  const bestValueId = filteredProducts.length > 0
+    ? filteredProducts.reduce((a, b) => (a.bestValue > b.bestValue ? a : b)).id
     : null;
-  const cheapestId = products.length > 0
-    ? products.reduce((a, b) => (a.price < b.price ? a : b)).id
+  const cheapestId = filteredProducts.length > 0
+    ? filteredProducts.reduce((a, b) => (a.price < b.price ? a : b)).id
     : null;
 
   return (
@@ -92,16 +102,19 @@ export default function CategoryPage() {
           : categoryInfo?.name || slug.toUpperCase()}
       </h1>
       <p className="text-on-surface-variant text-sm mb-8 font-label tracking-wide">
-        {loading ? "Loading..." : `${products.length} products found`}
+        {loading ? "Loading..." : `${filteredProducts.length} products found`}
       </p>
 
       <SortFilter
         sort={sort}
         minPrice={minPrice}
         maxPrice={maxPrice}
+        brand={brand}
+        brands={brands}
         onSortChange={setSort}
         onMinPriceChange={setMinPrice}
         onMaxPriceChange={setMaxPrice}
+        onBrandChange={setBrand}
       />
 
       {/* Search input */}
@@ -130,20 +143,18 @@ export default function CategoryPage() {
             </div>
           ))}
         </div>
-      ) : products.length === 0 ? (
+      ) : filteredProducts.length === 0 ? (
         <div className="text-center py-16">
           <p className="text-on-surface-variant text-lg font-label">No products found.</p>
         </div>
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-          {products.map((product) => (
+          {filteredProducts.map((product) => (
             <ProductCard
               key={product.id}
               {...product}
               isBestValue={product.id === bestValueId}
               isCheapest={product.id === cheapestId}
-              compareIds={compareIds}
-              onToggleCompare={handleToggleCompare}
             />
           ))}
         </div>

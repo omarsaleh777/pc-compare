@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
+import { useCompareStore } from "@/lib/store";
 
 interface ProductCardProps {
   id: string;
@@ -15,8 +16,6 @@ interface ProductCardProps {
   bestValue: number;
   isBestValue?: boolean;
   isCheapest?: boolean;
-  compareIds: string[];
-  onToggleCompare: (id: string) => void;
 }
 
 export default function ProductCard({
@@ -29,10 +28,9 @@ export default function ProductCard({
   affiliateUrl,
   isBestValue,
   isCheapest,
-  compareIds,
-  onToggleCompare,
 }: ProductCardProps) {
-  const isInCompare = compareIds.includes(id);
+  const { ids, toggle } = useCompareStore();
+  const isInCompare = ids.includes(id);
 
   return (
     <div className="group bg-surface-container-low border border-outline-variant/10 rounded-xl p-5
@@ -101,12 +99,12 @@ export default function ProductCard({
             Buy Now
           </a>
           <button
-            onClick={() => onToggleCompare(id)}
-            disabled={!isInCompare && compareIds.length >= 4}
+            onClick={() => toggle(id)}
+            disabled={!isInCompare && ids.length >= 4}
             className={`text-sm font-label font-bold py-2.5 px-3 rounded-lg border transition-all active:scale-95 ${
               isInCompare
                 ? "bg-primary/10 border-primary/30 text-primary"
-                : compareIds.length >= 4
+                : ids.length >= 4
                 ? "bg-surface-container border-outline-variant/20 text-outline cursor-not-allowed opacity-50"
                 : "border-outline-variant/30 text-on-surface-variant hover:bg-surface-container hover:text-primary"
             }`}

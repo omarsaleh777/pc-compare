@@ -1,8 +1,8 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
+import { useCompareStore } from "@/lib/store";
 import ThemeToggle from "./ThemeToggle";
 
 const NAV_LINKS = [
@@ -14,24 +14,8 @@ const NAV_LINKS = [
 ];
 
 export default function Header() {
-  const [compareCount, setCompareCount] = useState(0);
+  const compareCount = useCompareStore((s) => s.ids.length);
   const pathname = usePathname();
-
-  useEffect(() => {
-    function updateCount() {
-      try {
-        const ids = JSON.parse(localStorage.getItem("compareIds") || "[]");
-        setCompareCount(ids.length);
-      } catch {}
-    }
-    updateCount();
-    window.addEventListener("storage", updateCount);
-    window.addEventListener("compareUpdated", updateCount);
-    return () => {
-      window.removeEventListener("storage", updateCount);
-      window.removeEventListener("compareUpdated", updateCount);
-    };
-  }, []);
 
   return (
     <header className="fixed top-0 w-full z-50 glass-nav border-b border-outline-variant/10 shadow-2xl shadow-black/30 h-16">
