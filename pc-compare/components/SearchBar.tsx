@@ -3,7 +3,15 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 
-export default function SearchBar() {
+interface SearchBarProps {
+  className?: string;
+  placeholder?: string;
+}
+
+export default function SearchBar({
+  className,
+  placeholder = "Search components, benchmarks, or builds...",
+}: SearchBarProps) {
   const [query, setQuery] = useState("");
   const router = useRouter();
 
@@ -15,20 +23,17 @@ export default function SearchBar() {
   }
 
   return (
-    <form onSubmit={handleSubmit} className="flex gap-2 w-full max-w-lg">
+    <form onSubmit={handleSubmit} className="w-full">
       <input
         type="text"
         value={query}
         onChange={(e) => setQuery(e.target.value)}
-        placeholder="Search PC components..."
-        className="flex-1 border rounded-lg px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+        placeholder={placeholder}
+        className={
+          className ??
+          "w-full bg-transparent border border-outline-variant rounded-xl px-4 py-2.5 text-sm text-on-surface placeholder:text-on-surface-variant/50 focus:outline-none focus:ring-2 focus:ring-primary"
+        }
       />
-      <button
-        type="submit"
-        className="bg-blue-600 text-white px-4 py-2 rounded-lg text-sm hover:bg-blue-700"
-      >
-        Search
-      </button>
     </form>
   );
 }

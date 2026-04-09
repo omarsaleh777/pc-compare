@@ -1,114 +1,37 @@
 import { prisma } from "@/lib/prisma";
-import CategoryGrid from "@/components/CategoryGrid";
-import SearchBar from "@/components/SearchBar";
-import Link from "next/link";
-import Image from "next/image";
+import HeroSection from "@/components/home/HeroSection";
+import BentoCategoryGrid from "@/components/home/BentoCategoryGrid";
+import LiveTicker from "@/components/home/LiveTicker";
+import PrecisionDealsSection from "@/components/home/PrecisionDealsSection";
 
 export const metadata = {
-  title: "PC Compare — Find the Best PC Component Deals",
+  title: "PC Compare — Precision Silicon Architect",
   description:
-    "Compare prices, ratings, and specs for PC components. Find the best value RAM, CPU, GPU, storage, and more.",
+    "Compare prices, specs, and ratings for PC components. Find the best value RAM, CPU, GPU, storage, and more.",
 };
 
 export default async function Home() {
-  const [featured, bestValue] = await Promise.all([
-    prisma.product.findMany({
-      where: { featured: true },
-      take: 8,
-    }),
-    prisma.product.findMany({
-      orderBy: { bestValue: "desc" },
-      take: 4,
-    }),
-  ]);
+  const featuredDeals = await prisma.product.findMany({
+    orderBy: { bestValue: "desc" },
+    take: 8,
+    select: {
+      id: true,
+      name: true,
+      category: true,
+      price: true,
+      rating: true,
+      imageUrl: true,
+      affiliateUrl: true,
+      featured: true,
+    },
+  });
 
   return (
-    <main className="max-w-7xl mx-auto px-4 py-8">
-      {/* Hero */}
-      <section className="text-center mb-12">
-        <h1 className="text-3xl font-bold mb-4 text-gray-900 dark:text-white">
-          Find the Best PC Components
-        </h1>
-        <p className="text-gray-600 dark:text-gray-400 mb-6">
-          Compare prices, specs, and ratings across 80+ products
-        </p>
-        <div className="flex justify-center">
-          <SearchBar />
-        </div>
-      </section>
-
-      {/* Categories */}
-      <section className="mb-12">
-        <h2 className="text-xl font-bold mb-4 text-gray-900 dark:text-white">Browse by Category</h2>
-        <CategoryGrid />
-      </section>
-
-      {/* Featured Products */}
-      <section className="mb-12">
-        <h2 className="text-xl font-bold mb-4 text-gray-900 dark:text-white">Featured Products</h2>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-          {featured.map((product: any) => (
-            <Link
-              key={product.id}
-              href={`/product/${product.id}`}
-              className="border border-gray-200 dark:border-gray-700 rounded-lg p-4 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors bg-white dark:bg-gray-900"
-            >
-              <div className="relative w-full aspect-square bg-gray-100 dark:bg-gray-800 rounded overflow-hidden mb-3">
-                <Image
-                  src={product.imageUrl}
-                  alt={product.name}
-                  fill
-                  className="object-cover"
-                  sizes="(max-width: 768px) 100vw, 25vw"
-                  unoptimized
-                />
-              </div>
-              <h3 className="font-medium text-sm line-clamp-2 mb-1 text-gray-900 dark:text-white">
-                {product.name}
-              </h3>
-              <p className="font-bold text-gray-900 dark:text-white">${product.price.toFixed(2)}</p>
-              <p className="text-sm text-gray-500 dark:text-gray-400">
-                {"★".repeat(Math.round(product.rating))} {product.rating}/5
-              </p>
-            </Link>
-          ))}
-        </div>
-      </section>
-
-      {/* Best Value */}
-      <section className="mb-12">
-        <h2 className="text-xl font-bold mb-4 text-gray-900 dark:text-white">Best Value Picks</h2>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-          {bestValue.map((product: any) => (
-            <Link
-              key={product.id}
-              href={`/product/${product.id}`}
-              className="border border-gray-200 dark:border-gray-700 rounded-lg p-4 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors bg-white dark:bg-gray-900"
-            >
-              <span className="text-xs font-semibold bg-yellow-100 dark:bg-yellow-900/40 text-yellow-800 dark:text-yellow-400 px-2 py-0.5 rounded mb-2 inline-block">
-                Best Value
-              </span>
-              <div className="relative w-full aspect-square bg-gray-100 dark:bg-gray-800 rounded overflow-hidden mb-3">
-                <Image
-                  src={product.imageUrl}
-                  alt={product.name}
-                  fill
-                  className="object-cover"
-                  sizes="(max-width: 768px) 100vw, 25vw"
-                  unoptimized
-                />
-              </div>
-              <h3 className="font-medium text-sm line-clamp-2 mb-1 text-gray-900 dark:text-white">
-                {product.name}
-              </h3>
-              <p className="font-bold text-gray-900 dark:text-white">${product.price.toFixed(2)}</p>
-              <p className="text-sm text-gray-500 dark:text-gray-400">
-                {"★".repeat(Math.round(product.rating))} {product.rating}/5
-              </p>
-            </Link>
-          ))}
-        </div>
-      </section>
+    <main className="bg-surface">
+      <HeroSection />
+      <BentoCategoryGrid />
+      <LiveTicker />
+      <PrecisionDealsSection products={featuredDeals} />
     </main>
   );
 }

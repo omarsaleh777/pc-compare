@@ -1,22 +1,26 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Inter } from "next/font/google";
+import { Space_Grotesk } from "next/font/google";
 import "./globals.css";
 import Header from "@/components/Header";
+import Footer from "@/components/Footer";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const inter = Inter({
   subsets: ["latin"],
+  variable: "--font-inter",
+  display: "swap",
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+const spaceGrotesk = Space_Grotesk({
   subsets: ["latin"],
+  variable: "--font-space-grotesk",
+  display: "swap",
 });
 
 export const metadata: Metadata = {
-  title: "PC Compare — Find the Best PC Component Deals",
+  title: "PC Compare — Precision Silicon Architect",
   description:
-    "Compare prices, ratings, and specs for PC components. Find the best value RAM, CPU, GPU, motherboard, storage, cases, cooling, and power supplies.",
+    "Compare prices, specs, and ratings for PC components. Find the best value RAM, CPU, GPU, motherboard, storage, cases, cooling, and power supplies.",
 };
 
 export default function RootLayout({
@@ -27,20 +31,22 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
+      // Always dark — the Stitch design is dark-first
+      className={`dark ${inter.variable} ${spaceGrotesk.variable}`}
       suppressHydrationWarning
     >
       <head>
-        {/* Inline script runs before paint — prevents white flash */}
+        {/* Persist dark mode through page load */}
         <script
           dangerouslySetInnerHTML={{
-            __html: `(function(){try{var t=localStorage.getItem('theme');var d=window.matchMedia('(prefers-color-scheme:dark)').matches;if(t==='dark'||(t===null&&d)){document.documentElement.classList.add('dark')}}catch(e){}})()`,
+            __html: `(function(){try{var t=localStorage.getItem('theme');if(t!=='light'){document.documentElement.classList.add('dark')}}catch(e){}})()`,
           }}
         />
       </head>
-      <body className="min-h-full flex flex-col bg-white dark:bg-gray-900 text-gray-900 dark:text-white transition-colors duration-200">
+      <body className="bg-surface text-on-surface font-body min-h-screen flex flex-col">
         <Header />
-        <div className="flex-1">{children}</div>
+        <div className="flex-1 pt-16">{children}</div>
+        <Footer />
       </body>
     </html>
   );
