@@ -13,15 +13,20 @@ const categories = [
 
 export default function CategoryGrid() {
   return (
-    <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+    <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
       {categories.map((cat) => (
         <Link
           key={cat.slug}
           href={`/category/${cat.slug}`}
-          className="border border-gray-200 dark:border-gray-700 rounded-lg p-4 text-center hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors bg-white dark:bg-gray-900"
+          className="group border border-outline-variant/20 rounded-xl p-4 text-center
+            bg-surface-container-low hover:bg-surface-container
+            hover:border-outline-variant/40
+            transition-all duration-200 active:scale-[0.98]"
         >
-          <div className="text-3xl mb-2">{cat.icon}</div>
-          <div className="font-medium text-sm text-gray-900 dark:text-white">{cat.name}</div>
+          <div className="text-3xl mb-2 group-hover:scale-110 transition-transform">{cat.icon}</div>
+          <div className="font-label font-bold text-xs uppercase tracking-wider text-on-surface">
+            {cat.name}
+          </div>
         </Link>
       ))}
     </div>

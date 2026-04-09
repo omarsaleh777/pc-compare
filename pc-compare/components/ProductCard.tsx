@@ -35,29 +35,34 @@ export default function ProductCard({
   const isInCompare = compareIds.includes(id);
 
   return (
-    <div className="border border-gray-200 dark:border-gray-700 rounded-lg p-4 flex flex-col bg-white dark:bg-gray-900">
+    <div className="group bg-surface-container-low border border-outline-variant/10 rounded-xl p-5
+      hover:border-outline-variant/30 hover:-translate-y-1 hover:shadow-card-hover
+      transition-all duration-300 flex flex-col">
+
       {/* Badges */}
-      <div className="flex gap-2 mb-2 min-h-[24px]">
+      <div className="flex gap-2 mb-3 min-h-[22px]">
         {isBestValue && (
-          <span className="text-xs font-semibold bg-yellow-100 dark:bg-yellow-900/40 text-yellow-800 dark:text-yellow-400 px-2 py-0.5 rounded">
+          <span className="font-label text-[10px] font-bold tracking-wider uppercase
+            bg-secondary-container text-on-secondary-container px-2.5 py-0.5 rounded">
             Best Value
           </span>
         )}
         {isCheapest && (
-          <span className="text-xs font-semibold bg-green-100 dark:bg-green-900/40 text-green-800 dark:text-green-400 px-2 py-0.5 rounded">
+          <span className="font-label text-[10px] font-bold tracking-wider uppercase
+            bg-primary-container text-on-primary-container px-2.5 py-0.5 rounded">
             Cheapest
           </span>
         )}
       </div>
 
       {/* Image */}
-      <Link href={`/product/${id}`} className="block mb-3">
-        <div className="relative w-full aspect-square bg-gray-100 dark:bg-gray-800 rounded overflow-hidden">
+      <Link href={`/product/${id}`} className="block mb-4">
+        <div className="relative w-full aspect-square bg-surface-container-highest rounded-lg overflow-hidden">
           <Image
             src={imageUrl}
             alt={name}
             fill
-            className="object-cover"
+            className="object-contain p-3 group-hover:scale-110 transition-transform duration-300"
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
             unoptimized
           />
@@ -65,17 +70,23 @@ export default function ProductCard({
       </Link>
 
       {/* Info */}
-      <Link href={`/product/${id}`} className="hover:underline">
-        <h3 className="font-medium text-sm line-clamp-2 mb-2 text-gray-900 dark:text-white">{name}</h3>
+      <Link href={`/product/${id}`} className="hover:underline underline-offset-2">
+        <h3 className="font-headline font-bold text-sm text-on-surface line-clamp-2 mb-2">
+          {name}
+        </h3>
       </Link>
 
       <div className="mt-auto">
-        <p className="text-lg font-bold text-gray-900 dark:text-white">${price.toFixed(2)}</p>
+        <p className="text-xl font-black text-on-surface mb-1">
+          ${price.toFixed(2)}
+        </p>
 
-        <div className="flex items-center gap-1 text-sm text-gray-600 dark:text-gray-400 mb-3">
-          <span className="text-yellow-500">{"★".repeat(Math.round(rating))}</span>
+        <div className="flex items-center gap-1 text-sm text-on-surface-variant mb-4">
+          <span className="text-secondary-fixed-dim">
+            {"★".repeat(Math.round(rating))}
+          </span>
           <span>{rating.toFixed(1)}</span>
-          <span>({reviewCount.toLocaleString()})</span>
+          <span className="text-outline">({reviewCount.toLocaleString()})</span>
         </div>
 
         <div className="flex gap-2">
@@ -83,19 +94,21 @@ export default function ProductCard({
             href={affiliateUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="flex-1 text-center text-sm bg-blue-600 text-white py-2 px-3 rounded hover:bg-blue-700"
+            className="flex-1 text-center text-sm font-label font-bold tracking-wider uppercase
+              bg-primary-gradient text-on-primary py-2.5 px-3 rounded-lg
+              hover:brightness-110 active:scale-95 transition-all"
           >
             Buy Now
           </a>
           <button
             onClick={() => onToggleCompare(id)}
             disabled={!isInCompare && compareIds.length >= 4}
-            className={`text-sm py-2 px-3 rounded border transition-colors ${
+            className={`text-sm font-label font-bold py-2.5 px-3 rounded-lg border transition-all active:scale-95 ${
               isInCompare
-                ? "bg-blue-100 dark:bg-blue-900/40 border-blue-300 dark:border-blue-700 text-blue-700 dark:text-blue-400"
+                ? "bg-primary/10 border-primary/30 text-primary"
                 : compareIds.length >= 4
-                ? "bg-gray-100 dark:bg-gray-800 border-gray-200 dark:border-gray-700 text-gray-400 dark:text-gray-600 cursor-not-allowed"
-                : "border-gray-300 dark:border-gray-600 hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-700 dark:text-gray-300"
+                ? "bg-surface-container border-outline-variant/20 text-outline cursor-not-allowed opacity-50"
+                : "border-outline-variant/30 text-on-surface-variant hover:bg-surface-container hover:text-primary"
             }`}
           >
             {isInCompare ? "✓ Compare" : "+ Compare"}

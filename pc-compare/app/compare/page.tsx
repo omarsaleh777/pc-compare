@@ -44,25 +44,33 @@ export default function ComparePage() {
   }
 
   return (
-    <main className="max-w-7xl mx-auto px-4 py-8">
-      <h1 className="text-2xl font-bold mb-2 text-gray-900 dark:text-white">Compare Products</h1>
-      <p className="text-gray-600 dark:text-gray-400 mb-6">
+    <main className="max-w-[1400px] mx-auto px-6 lg:px-8 py-10">
+      <h1 className="font-headline text-4xl font-black tracking-hero text-on-surface mb-2">
+        Compare Products
+      </h1>
+      <p className="text-on-surface-variant text-sm mb-8 font-label tracking-wide">
         {compareIds.length}/4 products selected
       </p>
 
       {loading ? (
-        <p className="text-gray-500 dark:text-gray-400">Loading...</p>
+        <div className="flex items-center gap-3 text-on-surface-variant">
+          <div className="pulse-dot animate-pulse" />
+          <span className="font-label text-sm">Loading comparison...</span>
+        </div>
       ) : products.length === 0 ? (
-        <div className="text-center py-12">
-          <p className="text-xl font-medium text-gray-700 dark:text-gray-300 mb-2">
+        <div className="text-center py-20 border border-outline-variant/20 rounded-xl bg-surface-container-low">
+          <div className="text-5xl mb-4">🔍</div>
+          <p className="text-xl font-headline font-bold text-on-surface mb-2">
             No products selected
           </p>
-          <p className="text-sm text-gray-500 dark:text-gray-400 mb-6">
+          <p className="text-sm text-on-surface-variant mb-8 max-w-sm mx-auto">
             Browse categories and click &quot;+ Compare&quot; on products to add them here.
           </p>
           <a
             href="/"
-            className="inline-block bg-blue-600 text-white py-2 px-6 rounded-lg hover:bg-blue-700 text-sm"
+            className="inline-block bg-primary-gradient text-on-primary py-3 px-8 rounded-lg
+              font-label font-bold text-sm tracking-wider uppercase
+              hover:brightness-110 active:scale-95 transition-all"
           >
             Browse Products
           </a>
@@ -73,28 +81,30 @@ export default function ComparePage() {
             {products.map((p) => (
               <span
                 key={p.id}
-                className="inline-flex items-center gap-1 bg-gray-100 dark:bg-gray-800 text-gray-800 dark:text-gray-200 rounded px-3 py-1 text-sm"
+                className="inline-flex items-center gap-2 bg-surface-container-high text-on-surface rounded-lg px-4 py-2 text-sm font-label"
               >
                 {p.name.slice(0, 40)}
                 <button
                   onClick={() => handleRemove(p.id)}
-                  className="text-red-500 hover:text-red-700 ml-1"
+                  className="text-error hover:text-on-error-container ml-1 transition-colors"
                 >
                   ×
                 </button>
               </span>
             ))}
           </div>
-          <div className="text-center py-8 border border-gray-200 dark:border-gray-700 rounded-lg bg-gray-50 dark:bg-gray-800">
-            <p className="text-gray-700 dark:text-gray-300 font-medium mb-2">
+          <div className="text-center py-12 border border-outline-variant/20 rounded-xl bg-surface-container-low">
+            <p className="font-headline font-bold text-on-surface mb-2">
               Add at least one more product to compare
             </p>
-            <p className="text-sm text-gray-500 dark:text-gray-400 mb-4">
+            <p className="text-sm text-on-surface-variant mb-6">
               You need 2–4 products for a side-by-side comparison.
             </p>
             <a
               href="/"
-              className="inline-block bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 text-sm"
+              className="inline-block bg-primary-gradient text-on-primary py-2.5 px-6 rounded-lg
+                font-label font-bold text-sm tracking-wider uppercase
+                hover:brightness-110 active:scale-95 transition-all"
             >
               Browse Products
             </a>
@@ -102,17 +112,17 @@ export default function ComparePage() {
         </div>
       ) : (
         <>
-          {/* Remove buttons */}
-          <div className="flex gap-2 mb-4 flex-wrap">
+          {/* Product chips */}
+          <div className="flex gap-2 mb-6 flex-wrap">
             {products.map((p) => (
               <span
                 key={p.id}
-                className="inline-flex items-center gap-1 bg-gray-100 dark:bg-gray-800 text-gray-800 dark:text-gray-200 rounded px-3 py-1 text-sm"
+                className="inline-flex items-center gap-2 bg-surface-container-high text-on-surface rounded-lg px-4 py-2 text-sm font-label"
               >
                 {p.name.slice(0, 30)}...
                 <button
                   onClick={() => handleRemove(p.id)}
-                  className="text-red-500 hover:text-red-700 ml-1"
+                  className="text-error hover:text-on-error-container ml-1 transition-colors"
                 >
                   ×
                 </button>

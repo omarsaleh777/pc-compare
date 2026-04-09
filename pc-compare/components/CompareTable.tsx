@@ -17,27 +17,25 @@ interface CompareTableProps {
 export default function CompareTable({ products }: CompareTableProps) {
   if (products.length === 0) return null;
 
-  // Parse all specs and collect union of keys
   const parsedSpecs = products.map((p) => JSON.parse(p.specs) as Record<string, string>);
   const allKeys = Array.from(new Set(parsedSpecs.flatMap((s) => Object.keys(s))));
 
-  // Find cheapest and highest rated
   const cheapestPrice = Math.min(...products.map((p) => p.price));
   const highestRating = Math.max(...products.map((p) => p.rating));
 
+  const cellBase = "border border-outline-variant/20 p-4 text-sm";
+  const headerCell = `${cellBase} bg-surface-container-high text-on-surface font-headline font-bold`;
+  const labelCell = `${cellBase} font-label text-xs uppercase tracking-wider text-on-surface-variant w-36`;
+  const valueCell = `${cellBase} text-center text-on-surface`;
+
   return (
-    <div className="overflow-x-auto">
-      <table className="w-full border-collapse text-sm">
+    <div className="overflow-x-auto rounded-xl border border-outline-variant/20">
+      <table className="w-full border-collapse">
         <thead>
           <tr>
-            <th className="border border-gray-200 dark:border-gray-700 p-3 bg-gray-50 dark:bg-gray-800 text-gray-900 dark:text-white text-left w-36">
-              Spec
-            </th>
+            <th className={`${headerCell} text-left`}>Spec</th>
             {products.map((p) => (
-              <th
-                key={p.id}
-                className="border border-gray-200 dark:border-gray-700 p-3 bg-gray-50 dark:bg-gray-800 text-gray-900 dark:text-white text-center min-w-[180px]"
-              >
+              <th key={p.id} className={`${headerCell} text-center min-w-[200px]`}>
                 {p.name}
               </th>
             ))}
@@ -46,21 +44,19 @@ export default function CompareTable({ products }: CompareTableProps) {
         <tbody>
           {/* Price row */}
           <tr>
-            <td className="border border-gray-200 dark:border-gray-700 p-3 font-medium text-gray-700 dark:text-gray-300">
-              Price
-            </td>
+            <td className={labelCell}>Price</td>
             {products.map((p) => (
               <td
                 key={p.id}
-                className={`border border-gray-200 dark:border-gray-700 p-3 text-center font-bold ${
+                className={`${valueCell} font-black text-lg ${
                   p.price === cheapestPrice
-                    ? "bg-green-50 dark:bg-green-900/30 text-green-700 dark:text-green-400"
-                    : "text-gray-900 dark:text-white"
+                    ? "bg-primary/5 text-primary"
+                    : ""
                 }`}
               >
                 ${p.price.toFixed(2)}
                 {p.price !== cheapestPrice && (
-                  <span className="block text-xs text-gray-500 dark:text-gray-400 font-normal">
+                  <span className="block text-[10px] text-outline font-normal font-label tracking-wider">
                     +${(p.price - cheapestPrice).toFixed(2)}
                   </span>
                 )}
@@ -70,19 +66,20 @@ export default function CompareTable({ products }: CompareTableProps) {
 
           {/* Rating row */}
           <tr>
-            <td className="border border-gray-200 dark:border-gray-700 p-3 font-medium text-gray-700 dark:text-gray-300">
-              Rating
-            </td>
+            <td className={labelCell}>Rating</td>
             {products.map((p) => (
               <td
                 key={p.id}
-                className={`border border-gray-200 dark:border-gray-700 p-3 text-center ${
+                className={`${valueCell} ${
                   p.rating === highestRating
-                    ? "bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-400 font-bold"
-                    : "text-gray-900 dark:text-white"
+                    ? "bg-secondary-container/10 text-secondary-fixed-dim font-bold"
+                    : ""
                 }`}
               >
-                {"★".repeat(Math.round(p.rating))} {p.rating.toFixed(1)}
+                <span className="text-secondary-fixed-dim">
+                  {"★".repeat(Math.round(p.rating))}
+                </span>{" "}
+                {p.rating.toFixed(1)}
               </td>
             ))}
           </tr>
@@ -90,14 +87,9 @@ export default function CompareTable({ products }: CompareTableProps) {
           {/* Spec rows */}
           {allKeys.map((key) => (
             <tr key={key}>
-              <td className="border border-gray-200 dark:border-gray-700 p-3 font-medium capitalize text-gray-700 dark:text-gray-300">
-                {key}
-              </td>
+              <td className={labelCell}>{key}</td>
               {parsedSpecs.map((specs, i) => (
-                <td
-                  key={products[i].id}
-                  className="border border-gray-200 dark:border-gray-700 p-3 text-center text-gray-900 dark:text-white"
-                >
+                <td key={products[i].id} className={valueCell}>
                   {specs[key] || "—"}
                 </td>
               ))}
@@ -106,16 +98,16 @@ export default function CompareTable({ products }: CompareTableProps) {
 
           {/* Buy row */}
           <tr>
-            <td className="border border-gray-200 dark:border-gray-700 p-3 font-medium text-gray-700 dark:text-gray-300">
-              Buy
-            </td>
+            <td className={labelCell}>Buy</td>
             {products.map((p) => (
-              <td key={p.id} className="border border-gray-200 dark:border-gray-700 p-3 text-center">
+              <td key={p.id} className={`${valueCell}`}>
                 <a
                   href={p.affiliateUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-block bg-blue-600 text-white py-2 px-4 rounded hover:bg-blue-700 text-sm"
+                  className="inline-block bg-primary-gradient text-on-primary py-2.5 px-6 rounded-lg
+                    font-label font-bold text-xs tracking-wider uppercase
+                    hover:brightness-110 active:scale-95 transition-all"
                 >
                   Buy Now
                 </a>

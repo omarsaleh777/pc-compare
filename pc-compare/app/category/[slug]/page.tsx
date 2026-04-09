@@ -38,7 +38,6 @@ export default function CategoryPage() {
 
   const categoryInfo = categories.find((c) => c.slug === slug);
 
-  // Debounce search input
   useEffect(() => {
     if (debounceTimer.current) clearTimeout(debounceTimer.current);
     debounceTimer.current = setTimeout(() => {
@@ -77,7 +76,6 @@ export default function CategoryPage() {
     setCompareIds([...newIds]);
   }
 
-  // Determine best value and cheapest
   const bestValueId = products.length > 0
     ? products.reduce((a, b) => (a.bestValue > b.bestValue ? a : b)).id
     : null;
@@ -86,13 +84,14 @@ export default function CategoryPage() {
     : null;
 
   return (
-    <main className="max-w-7xl mx-auto px-4 py-8">
-      <h1 className="text-2xl font-bold mb-2 text-gray-900 dark:text-white">
+    <main className="max-w-[1400px] mx-auto px-6 lg:px-8 py-10">
+      {/* Page header */}
+      <h1 className="font-headline text-4xl font-black tracking-hero text-on-surface mb-2">
         {slug === "all"
           ? "All Products"
           : categoryInfo?.name || slug.toUpperCase()}
       </h1>
-      <p className="text-gray-600 dark:text-gray-400 mb-6">
+      <p className="text-on-surface-variant text-sm mb-8 font-label tracking-wide">
         {loading ? "Loading..." : `${products.length} products found`}
       </p>
 
@@ -105,32 +104,38 @@ export default function CategoryPage() {
         onMaxPriceChange={setMaxPrice}
       />
 
-      {/* Search within category */}
-      <div className="mb-6">
+      {/* Search input */}
+      <div className="mb-8">
         <input
           type="text"
           value={search}
           onChange={(e) => setSearch(e.target.value)}
           placeholder="Filter by name..."
-          className="border border-gray-300 dark:border-gray-600 rounded px-3 py-1.5 text-sm w-full max-w-sm bg-white dark:bg-gray-800 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500"
+          className="bg-surface-container-highest border border-outline-variant/30 rounded-lg
+            px-4 py-2.5 text-sm w-full max-w-sm text-on-surface
+            placeholder:text-outline
+            focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary
+            transition-colors"
         />
       </div>
 
       {loading ? (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
           {Array.from({ length: 8 }).map((_, i) => (
-            <div key={i} className="border border-gray-200 dark:border-gray-700 rounded-lg p-4 animate-pulse bg-white dark:bg-gray-900">
-              <div className="bg-gray-200 dark:bg-gray-700 aspect-square rounded mb-3" />
-              <div className="bg-gray-200 dark:bg-gray-700 h-4 rounded w-3/4 mb-2" />
-              <div className="bg-gray-200 dark:bg-gray-700 h-5 rounded w-1/3 mb-2" />
-              <div className="bg-gray-200 dark:bg-gray-700 h-3 rounded w-1/2" />
+            <div key={i} className="bg-surface-container-low border border-outline-variant/10 rounded-xl p-5 animate-pulse">
+              <div className="bg-surface-container-highest aspect-square rounded-lg mb-4" />
+              <div className="bg-surface-container-high h-4 rounded w-3/4 mb-3" />
+              <div className="bg-surface-container-high h-5 rounded w-1/3 mb-3" />
+              <div className="bg-surface-container-high h-3 rounded w-1/2" />
             </div>
           ))}
         </div>
       ) : products.length === 0 ? (
-        <p className="text-gray-500 dark:text-gray-400">No products found.</p>
+        <div className="text-center py-16">
+          <p className="text-on-surface-variant text-lg font-label">No products found.</p>
+        </div>
       ) : (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
           {products.map((product) => (
             <ProductCard
               key={product.id}
