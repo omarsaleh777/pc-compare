@@ -36,7 +36,7 @@ export default function ProductDetailClient({ product }: { product: Product }) {
     <main className="max-w-5xl mx-auto px-4 py-8">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
         {/* Image */}
-        <div className="relative aspect-square bg-gray-100 rounded-lg overflow-hidden">
+        <div className="relative aspect-square bg-gray-100 dark:bg-gray-800 rounded-lg overflow-hidden">
           <Image
             src={product.imageUrl}
             alt={product.name}
@@ -49,19 +49,19 @@ export default function ProductDetailClient({ product }: { product: Product }) {
 
         {/* Info */}
         <div>
-          <p className="text-sm text-gray-500 uppercase mb-1">{product.category}</p>
-          <h1 className="text-2xl font-bold mb-2">{product.name}</h1>
+          <p className="text-sm text-gray-500 dark:text-gray-400 uppercase mb-1">{product.category}</p>
+          <h1 className="text-2xl font-bold mb-2 text-gray-900 dark:text-white">{product.name}</h1>
 
           <div className="flex items-center gap-2 mb-4">
             <span className="text-yellow-500">
               {"★".repeat(Math.round(product.rating))}
             </span>
-            <span className="text-sm text-gray-600">
+            <span className="text-sm text-gray-600 dark:text-gray-400">
               {product.rating}/5 ({product.reviewCount.toLocaleString()} reviews)
             </span>
           </div>
 
-          <p className="text-3xl font-bold mb-6">${product.price.toFixed(2)}</p>
+          <p className="text-3xl font-bold mb-6 text-gray-900 dark:text-white">${product.price.toFixed(2)}</p>
 
           <div className="flex gap-3 mb-6">
             <a
@@ -74,29 +74,30 @@ export default function ProductDetailClient({ product }: { product: Product }) {
             </a>
             <button
               onClick={handleToggleCompare}
-              className={`py-2 px-4 rounded-lg text-sm border ${isInCompare
-                  ? "bg-blue-100 border-blue-300 text-blue-700"
-                  : "hover:bg-gray-100"
-                }`}
+              className={`py-2 px-4 rounded-lg text-sm border transition-colors ${
+                isInCompare
+                  ? "bg-blue-100 dark:bg-blue-900/40 border-blue-300 dark:border-blue-700 text-blue-700 dark:text-blue-400"
+                  : "border-gray-300 dark:border-gray-600 hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-700 dark:text-gray-300"
+              }`}
             >
               {isInCompare ? "✓ In Compare" : "+ Add to Compare"}
             </button>
           </div>
 
           {/* Specs */}
-          <h2 className="font-bold mb-2">Specifications</h2>
+          <h2 className="font-bold mb-2 text-gray-900 dark:text-white">Specifications</h2>
           <table className="w-full text-sm mb-6">
             <tbody>
               {Object.entries(specs).map(([key, value]) => (
-                <tr key={key} className="border-b">
-                  <td className="py-2 font-medium capitalize w-1/3">{key}</td>
-                  <td className="py-2">{value}</td>
+                <tr key={key} className="border-b border-gray-200 dark:border-gray-700">
+                  <td className="py-2 font-medium capitalize w-1/3 text-gray-700 dark:text-gray-300">{key}</td>
+                  <td className="py-2 text-gray-900 dark:text-white">{value}</td>
                 </tr>
               ))}
             </tbody>
           </table>
 
-          <p className="text-xs text-gray-400">
+          <p className="text-xs text-gray-400 dark:text-gray-500">
             Last updated: {new Date(product.lastUpdated).toLocaleDateString()}
           </p>
         </div>

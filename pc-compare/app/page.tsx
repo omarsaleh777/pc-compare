@@ -26,10 +26,10 @@ export default async function Home() {
     <main className="max-w-7xl mx-auto px-4 py-8">
       {/* Hero */}
       <section className="text-center mb-12">
-        <h1 className="text-3xl font-bold mb-4">
+        <h1 className="text-3xl font-bold mb-4 text-gray-900 dark:text-white">
           Find the Best PC Components
         </h1>
-        <p className="text-gray-600 mb-6">
+        <p className="text-gray-600 dark:text-gray-400 mb-6">
           Compare prices, specs, and ratings across 80+ products
         </p>
         <div className="flex justify-center">
@@ -39,21 +39,21 @@ export default async function Home() {
 
       {/* Categories */}
       <section className="mb-12">
-        <h2 className="text-xl font-bold mb-4">Browse by Category</h2>
+        <h2 className="text-xl font-bold mb-4 text-gray-900 dark:text-white">Browse by Category</h2>
         <CategoryGrid />
       </section>
 
       {/* Featured Products */}
       <section className="mb-12">
-        <h2 className="text-xl font-bold mb-4">Featured Products</h2>
+        <h2 className="text-xl font-bold mb-4 text-gray-900 dark:text-white">Featured Products</h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
           {featured.map((product: any) => (
             <Link
               key={product.id}
               href={`/product/${product.id}`}
-              className="border rounded-lg p-4 hover:bg-gray-50 transition-colors"
+              className="border border-gray-200 dark:border-gray-700 rounded-lg p-4 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors bg-white dark:bg-gray-900"
             >
-              <div className="relative w-full aspect-square bg-gray-100 rounded overflow-hidden mb-3">
+              <div className="relative w-full aspect-square bg-gray-100 dark:bg-gray-800 rounded overflow-hidden mb-3">
                 <Image
                   src={product.imageUrl}
                   alt={product.name}
@@ -63,11 +63,11 @@ export default async function Home() {
                   unoptimized
                 />
               </div>
-              <h3 className="font-medium text-sm line-clamp-2 mb-1">
+              <h3 className="font-medium text-sm line-clamp-2 mb-1 text-gray-900 dark:text-white">
                 {product.name}
               </h3>
-              <p className="font-bold">${product.price.toFixed(2)}</p>
-              <p className="text-sm text-gray-500">
+              <p className="font-bold text-gray-900 dark:text-white">${product.price.toFixed(2)}</p>
+              <p className="text-sm text-gray-500 dark:text-gray-400">
                 {"★".repeat(Math.round(product.rating))} {product.rating}/5
               </p>
             </Link>
@@ -77,18 +77,18 @@ export default async function Home() {
 
       {/* Best Value */}
       <section className="mb-12">
-        <h2 className="text-xl font-bold mb-4">Best Value Picks</h2>
+        <h2 className="text-xl font-bold mb-4 text-gray-900 dark:text-white">Best Value Picks</h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
           {bestValue.map((product: any) => (
             <Link
               key={product.id}
               href={`/product/${product.id}`}
-              className="border rounded-lg p-4 hover:bg-gray-50 transition-colors"
+              className="border border-gray-200 dark:border-gray-700 rounded-lg p-4 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors bg-white dark:bg-gray-900"
             >
-              <span className="text-xs font-semibold bg-yellow-100 text-yellow-800 px-2 py-0.5 rounded mb-2 inline-block">
+              <span className="text-xs font-semibold bg-yellow-100 dark:bg-yellow-900/40 text-yellow-800 dark:text-yellow-400 px-2 py-0.5 rounded mb-2 inline-block">
                 Best Value
               </span>
-              <div className="relative w-full aspect-square bg-gray-100 rounded overflow-hidden mb-3">
+              <div className="relative w-full aspect-square bg-gray-100 dark:bg-gray-800 rounded overflow-hidden mb-3">
                 <Image
                   src={product.imageUrl}
                   alt={product.name}
@@ -98,11 +98,11 @@ export default async function Home() {
                   unoptimized
                 />
               </div>
-              <h3 className="font-medium text-sm line-clamp-2 mb-1">
+              <h3 className="font-medium text-sm line-clamp-2 mb-1 text-gray-900 dark:text-white">
                 {product.name}
               </h3>
-              <p className="font-bold">${product.price.toFixed(2)}</p>
-              <p className="text-sm text-gray-500">
+              <p className="font-bold text-gray-900 dark:text-white">${product.price.toFixed(2)}</p>
+              <p className="text-sm text-gray-500 dark:text-gray-400">
                 {"★".repeat(Math.round(product.rating))} {product.rating}/5
               </p>
             </Link>

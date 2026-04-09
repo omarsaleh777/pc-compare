@@ -87,12 +87,12 @@ export default function CategoryPage() {
 
   return (
     <main className="max-w-7xl mx-auto px-4 py-8">
-      <h1 className="text-2xl font-bold mb-2">
+      <h1 className="text-2xl font-bold mb-2 text-gray-900 dark:text-white">
         {slug === "all"
           ? "All Products"
           : categoryInfo?.name || slug.toUpperCase()}
       </h1>
-      <p className="text-gray-600 mb-6">
+      <p className="text-gray-600 dark:text-gray-400 mb-6">
         {loading ? "Loading..." : `${products.length} products found`}
       </p>
 
@@ -112,23 +112,23 @@ export default function CategoryPage() {
           value={search}
           onChange={(e) => setSearch(e.target.value)}
           placeholder="Filter by name..."
-          className="border rounded px-3 py-1.5 text-sm w-full max-w-sm"
+          className="border border-gray-300 dark:border-gray-600 rounded px-3 py-1.5 text-sm w-full max-w-sm bg-white dark:bg-gray-800 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500"
         />
       </div>
 
       {loading ? (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
           {Array.from({ length: 8 }).map((_, i) => (
-            <div key={i} className="border rounded-lg p-4 animate-pulse">
-              <div className="bg-gray-200 aspect-square rounded mb-3" />
-              <div className="bg-gray-200 h-4 rounded w-3/4 mb-2" />
-              <div className="bg-gray-200 h-5 rounded w-1/3 mb-2" />
-              <div className="bg-gray-200 h-3 rounded w-1/2" />
+            <div key={i} className="border border-gray-200 dark:border-gray-700 rounded-lg p-4 animate-pulse bg-white dark:bg-gray-900">
+              <div className="bg-gray-200 dark:bg-gray-700 aspect-square rounded mb-3" />
+              <div className="bg-gray-200 dark:bg-gray-700 h-4 rounded w-3/4 mb-2" />
+              <div className="bg-gray-200 dark:bg-gray-700 h-5 rounded w-1/3 mb-2" />
+              <div className="bg-gray-200 dark:bg-gray-700 h-3 rounded w-1/2" />
             </div>
           ))}
         </div>
       ) : products.length === 0 ? (
-        <p className="text-gray-500">No products found.</p>
+        <p className="text-gray-500 dark:text-gray-400">No products found.</p>
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
           {products.map((product) => (

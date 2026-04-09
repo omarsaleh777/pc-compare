@@ -45,19 +45,19 @@ export default function ComparePage() {
 
   return (
     <main className="max-w-7xl mx-auto px-4 py-8">
-      <h1 className="text-2xl font-bold mb-2">Compare Products</h1>
-      <p className="text-gray-600 mb-6">
+      <h1 className="text-2xl font-bold mb-2 text-gray-900 dark:text-white">Compare Products</h1>
+      <p className="text-gray-600 dark:text-gray-400 mb-6">
         {compareIds.length}/4 products selected
       </p>
 
       {loading ? (
-        <p className="text-gray-500">Loading...</p>
+        <p className="text-gray-500 dark:text-gray-400">Loading...</p>
       ) : products.length === 0 ? (
         <div className="text-center py-12">
-          <p className="text-xl font-medium text-gray-700 mb-2">
+          <p className="text-xl font-medium text-gray-700 dark:text-gray-300 mb-2">
             No products selected
           </p>
-          <p className="text-sm text-gray-500 mb-6">
+          <p className="text-sm text-gray-500 dark:text-gray-400 mb-6">
             Browse categories and click &quot;+ Compare&quot; on products to add them here.
           </p>
           <a
@@ -69,12 +69,11 @@ export default function ComparePage() {
         </div>
       ) : products.length === 1 ? (
         <div>
-          {/* Show the single product chip */}
           <div className="flex gap-2 mb-6 flex-wrap">
             {products.map((p) => (
               <span
                 key={p.id}
-                className="inline-flex items-center gap-1 bg-gray-100 rounded px-3 py-1 text-sm"
+                className="inline-flex items-center gap-1 bg-gray-100 dark:bg-gray-800 text-gray-800 dark:text-gray-200 rounded px-3 py-1 text-sm"
               >
                 {p.name.slice(0, 40)}
                 <button
@@ -86,11 +85,11 @@ export default function ComparePage() {
               </span>
             ))}
           </div>
-          <div className="text-center py-8 border rounded-lg bg-gray-50">
-            <p className="text-gray-700 font-medium mb-2">
+          <div className="text-center py-8 border border-gray-200 dark:border-gray-700 rounded-lg bg-gray-50 dark:bg-gray-800">
+            <p className="text-gray-700 dark:text-gray-300 font-medium mb-2">
               Add at least one more product to compare
             </p>
-            <p className="text-sm text-gray-500 mb-4">
+            <p className="text-sm text-gray-500 dark:text-gray-400 mb-4">
               You need 2–4 products for a side-by-side comparison.
             </p>
             <a
@@ -108,7 +107,7 @@ export default function ComparePage() {
             {products.map((p) => (
               <span
                 key={p.id}
-                className="inline-flex items-center gap-1 bg-gray-100 rounded px-3 py-1 text-sm"
+                className="inline-flex items-center gap-1 bg-gray-100 dark:bg-gray-800 text-gray-800 dark:text-gray-200 rounded px-3 py-1 text-sm"
               >
                 {p.name.slice(0, 30)}...
                 <button

@@ -18,10 +18,10 @@ export default function CategoryGrid() {
         <Link
           key={cat.slug}
           href={`/category/${cat.slug}`}
-          className="border rounded-lg p-4 text-center hover:bg-gray-50 transition-colors"
+          className="border border-gray-200 dark:border-gray-700 rounded-lg p-4 text-center hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors bg-white dark:bg-gray-900"
         >
           <div className="text-3xl mb-2">{cat.icon}</div>
-          <div className="font-medium text-sm">{cat.name}</div>
+          <div className="font-medium text-sm text-gray-900 dark:text-white">{cat.name}</div>
         </Link>
       ))}
     </div>

@@ -27,12 +27,17 @@ export default function CompareTable({ products }: CompareTableProps) {
 
   return (
     <div className="overflow-x-auto">
-      <table className="w-full border-collapse border text-sm">
+      <table className="w-full border-collapse text-sm">
         <thead>
           <tr>
-            <th className="border p-3 bg-gray-50 text-left w-36">Spec</th>
+            <th className="border border-gray-200 dark:border-gray-700 p-3 bg-gray-50 dark:bg-gray-800 text-gray-900 dark:text-white text-left w-36">
+              Spec
+            </th>
             {products.map((p) => (
-              <th key={p.id} className="border p-3 bg-gray-50 text-center min-w-[180px]">
+              <th
+                key={p.id}
+                className="border border-gray-200 dark:border-gray-700 p-3 bg-gray-50 dark:bg-gray-800 text-gray-900 dark:text-white text-center min-w-[180px]"
+              >
                 {p.name}
               </th>
             ))}
@@ -41,17 +46,21 @@ export default function CompareTable({ products }: CompareTableProps) {
         <tbody>
           {/* Price row */}
           <tr>
-            <td className="border p-3 font-medium">Price</td>
+            <td className="border border-gray-200 dark:border-gray-700 p-3 font-medium text-gray-700 dark:text-gray-300">
+              Price
+            </td>
             {products.map((p) => (
               <td
                 key={p.id}
-                className={`border p-3 text-center font-bold ${
-                  p.price === cheapestPrice ? "bg-green-50 text-green-700" : ""
+                className={`border border-gray-200 dark:border-gray-700 p-3 text-center font-bold ${
+                  p.price === cheapestPrice
+                    ? "bg-green-50 dark:bg-green-900/30 text-green-700 dark:text-green-400"
+                    : "text-gray-900 dark:text-white"
                 }`}
               >
                 ${p.price.toFixed(2)}
                 {p.price !== cheapestPrice && (
-                  <span className="block text-xs text-gray-500 font-normal">
+                  <span className="block text-xs text-gray-500 dark:text-gray-400 font-normal">
                     +${(p.price - cheapestPrice).toFixed(2)}
                   </span>
                 )}
@@ -61,12 +70,16 @@ export default function CompareTable({ products }: CompareTableProps) {
 
           {/* Rating row */}
           <tr>
-            <td className="border p-3 font-medium">Rating</td>
+            <td className="border border-gray-200 dark:border-gray-700 p-3 font-medium text-gray-700 dark:text-gray-300">
+              Rating
+            </td>
             {products.map((p) => (
               <td
                 key={p.id}
-                className={`border p-3 text-center ${
-                  p.rating === highestRating ? "bg-blue-50 text-blue-700 font-bold" : ""
+                className={`border border-gray-200 dark:border-gray-700 p-3 text-center ${
+                  p.rating === highestRating
+                    ? "bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-400 font-bold"
+                    : "text-gray-900 dark:text-white"
                 }`}
               >
                 {"★".repeat(Math.round(p.rating))} {p.rating.toFixed(1)}
@@ -77,9 +90,14 @@ export default function CompareTable({ products }: CompareTableProps) {
           {/* Spec rows */}
           {allKeys.map((key) => (
             <tr key={key}>
-              <td className="border p-3 font-medium capitalize">{key}</td>
+              <td className="border border-gray-200 dark:border-gray-700 p-3 font-medium capitalize text-gray-700 dark:text-gray-300">
+                {key}
+              </td>
               {parsedSpecs.map((specs, i) => (
-                <td key={products[i].id} className="border p-3 text-center">
+                <td
+                  key={products[i].id}
+                  className="border border-gray-200 dark:border-gray-700 p-3 text-center text-gray-900 dark:text-white"
+                >
                   {specs[key] || "—"}
                 </td>
               ))}
@@ -88,9 +106,11 @@ export default function CompareTable({ products }: CompareTableProps) {
 
           {/* Buy row */}
           <tr>
-            <td className="border p-3 font-medium">Buy</td>
+            <td className="border border-gray-200 dark:border-gray-700 p-3 font-medium text-gray-700 dark:text-gray-300">
+              Buy
+            </td>
             {products.map((p) => (
-              <td key={p.id} className="border p-3 text-center">
+              <td key={p.id} className="border border-gray-200 dark:border-gray-700 p-3 text-center">
                 <a
                   href={p.affiliateUrl}
                   target="_blank"
