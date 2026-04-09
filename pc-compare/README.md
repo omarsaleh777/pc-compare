@@ -8,7 +8,6 @@ A full-stack web application for browsing, comparing, and purchasing PC componen
 - **Styling**: Tailwind CSS v3
 - **Database**: SQLite (dev) → PostgreSQL (prod)
 - **ORM**: Prisma v7 (with better-sqlite3 adapter)
-- **AI**: Anthropic Claude Haiku (optional)
 - **Deployment**: Vercel
 
 ## Quick Start
@@ -51,7 +50,6 @@ npm run dev
 - **Browse** products by category with sort and price filters
 - **Compare** up to 4 products side-by-side
 - **Best Value** and **Cheapest** badges on qualifying products
-- **AI descriptions** and comparison summaries (optional, requires Anthropic API key)
 - **Affiliate links** to Amazon with configurable tag
 - **Search** across all products
 
@@ -61,14 +59,12 @@ npm run dev
 |---|---|---|
 | `DATABASE_URL` | Yes | SQLite path or PostgreSQL URL |
 | `AFFILIATE_TAG` | No | Amazon affiliate tag (default: `yourstore-20`) |
-| `ANTHROPIC_API_KEY` | No | Enables AI descriptions and comparisons |
 
 ## API Routes
 
 - `GET /api/products?category=gpu&sort=best_value&minPrice=100&maxPrice=800&search=rtx`
 - `GET /api/products/[id]`
 - `GET /api/compare?ids=id1,id2,id3`
-- `POST /api/ai/describe` — `{ productId }` or `{ compareIds: [...] }`
 
 ## Deployment
 
