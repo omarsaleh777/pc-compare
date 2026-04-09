@@ -1,6 +1,9 @@
 import Link from "next/link";
 
-const FOOTER_LINKS = ["Privacy Policy", "Terms of Service", "API Status", "Contact"];
+const FOOTER_LINKS = [
+  { label: "Privacy Policy", href: "/privacy" },
+  { label: "Terms of Service", href: "/terms" },
+];
 
 export default function Footer() {
   return (
@@ -11,15 +14,15 @@ export default function Footer() {
             PC Compare
           </span>
           <p className="font-mono text-[10px] uppercase text-outline tracking-widest">
-            © 2024 PC Compare | Precision Silicon Architect
+            © {new Date().getFullYear()} PC Compare | Precision Silicon Architect
           </p>
         </div>
 
         <nav className="flex flex-wrap justify-center gap-6">
-          {FOOTER_LINKS.map((label) => (
+          {FOOTER_LINKS.map(({ label, href }) => (
             <Link
               key={label}
-              href="#"
+              href={href}
               className="font-mono text-[10px] uppercase text-outline hover:text-primary underline-offset-4 hover:underline transition-all tracking-widest"
             >
               {label}

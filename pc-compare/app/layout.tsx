@@ -31,19 +31,18 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      // Always dark — the Stitch design is dark-first
-      className={`dark ${inter.variable} ${spaceGrotesk.variable}`}
+      className={`${inter.variable} ${spaceGrotesk.variable}`}
       suppressHydrationWarning
     >
       <head>
-        {/* Persist dark mode through page load */}
+        {/* Prevent FOUC: apply saved theme BEFORE first paint */}
         <script
           dangerouslySetInnerHTML={{
-            __html: `(function(){try{var t=localStorage.getItem('theme');if(t!=='light'){document.documentElement.classList.add('dark')}}catch(e){}})()`,
+            __html: `(function(){try{var t=localStorage.getItem('theme');if(t==='light'){document.documentElement.classList.remove('dark')}else{document.documentElement.classList.add('dark')}}catch(e){document.documentElement.classList.add('dark')}})()`,
           }}
         />
       </head>
-      <body className="bg-surface text-on-surface font-body min-h-screen flex flex-col">
+      <body className="bg-surface text-on-surface font-body min-h-screen flex flex-col transition-colors duration-300">
         <Header />
         <div className="flex-1 pt-16">{children}</div>
         <Footer />

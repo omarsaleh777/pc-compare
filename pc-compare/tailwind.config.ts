@@ -1,5 +1,13 @@
 import type { Config } from "tailwindcss";
 
+/**
+ * Helper: maps a CSS variable name to a Tailwind color value
+ * that supports opacity modifiers (/10, /20, etc.).
+ */
+function colorVar(name: string) {
+  return `rgb(var(--${name}) / <alpha-value>)`;
+}
+
 const config: Config = {
   darkMode: "class",
   content: [
@@ -9,70 +17,70 @@ const config: Config = {
   ],
   theme: {
     extend: {
-      // ── Stitch Design System Colors ──────────────────────────────────────
+      // ── Colors via CSS custom properties (light/dark + opacity support) ──
       colors: {
-        // Surfaces (darkest → brightest)
-        "surface-dim":              "#131313",
-        "surface":                  "#131313",
-        "surface-container-lowest": "#0e0e0e",
-        "surface-container-low":    "#1b1c1c",
-        "surface-container":        "#1f2020",
-        "surface-container-high":   "#2a2a2a",
-        "surface-container-highest":"#353535",
-        "surface-bright":           "#393939",
-        "surface-variant":          "#353535",
-        "surface-tint":             "#a5c8ff",
+        // Surfaces
+        "surface-dim":              colorVar("surface-dim"),
+        "surface":                  colorVar("surface"),
+        "surface-container-lowest": colorVar("surface-container-lowest"),
+        "surface-container-low":    colorVar("surface-container-low"),
+        "surface-container":        colorVar("surface-container"),
+        "surface-container-high":   colorVar("surface-container-high"),
+        "surface-container-highest":colorVar("surface-container-highest"),
+        "surface-bright":           colorVar("surface-bright"),
+        "surface-variant":          colorVar("surface-variant"),
+        "surface-tint":             colorVar("surface-tint"),
 
         // Content on surfaces
-        "on-surface":         "#e4e2e1",
-        "on-surface-variant": "#c0c7d6",
-        "on-background":      "#e4e2e1",
+        "on-surface":         colorVar("on-surface"),
+        "on-surface-variant": colorVar("on-surface-variant"),
+        "on-background":      colorVar("on-background"),
 
-        // Primary — electric blue
-        "primary":              "#a5c8ff",
-        "primary-fixed":        "#d4e3ff",
-        "primary-fixed-dim":    "#a5c8ff",
-        "primary-container":    "#2792ff",
-        "on-primary":           "#00315f",
-        "on-primary-fixed":     "#001c3a",
-        "on-primary-container": "#002a53",
-        "on-primary-fixed-variant": "#004786",
-        "inverse-primary":      "#005faf",
+        // Primary
+        "primary":              colorVar("primary"),
+        "primary-fixed":        colorVar("primary-fixed"),
+        "primary-fixed-dim":    colorVar("primary-fixed-dim"),
+        "primary-container":    colorVar("primary-container"),
+        "on-primary":           colorVar("on-primary"),
+        "on-primary-fixed":     colorVar("on-primary-fixed"),
+        "on-primary-container": colorVar("on-primary-container"),
+        "on-primary-fixed-variant": colorVar("on-primary-fixed-variant"),
+        "inverse-primary":      colorVar("inverse-primary"),
 
-        // Secondary — gold / yellow
-        "secondary":           "#fff9ef",
-        "secondary-fixed":     "#ffe16d",
-        "secondary-fixed-dim": "#e9c400",
-        "secondary-container": "#ffdb3c",
-        "on-secondary":        "#3a3000",
-        "on-secondary-fixed":  "#221b00",
-        "on-secondary-container": "#725f00",
-        "on-secondary-fixed-variant": "#544600",
+        // Secondary
+        "secondary":           colorVar("secondary"),
+        "secondary-fixed":     colorVar("secondary-fixed"),
+        "secondary-fixed-dim": colorVar("secondary-fixed-dim"),
+        "secondary-container": colorVar("secondary-container"),
+        "on-secondary":        colorVar("on-secondary"),
+        "on-secondary-fixed":  colorVar("on-secondary-fixed"),
+        "on-secondary-container": colorVar("on-secondary-container"),
+        "on-secondary-fixed-variant": colorVar("on-secondary-fixed-variant"),
 
-        // Tertiary — sky blue
-        "tertiary":           "#96ccff",
-        "tertiary-fixed":     "#cee5ff",
-        "tertiary-fixed-dim": "#96ccff",
-        "tertiary-container": "#5b96c9",
-        "on-tertiary":        "#003353",
-        "on-tertiary-fixed":  "#001d32",
-        "on-tertiary-container":      "#002c48",
-        "on-tertiary-fixed-variant":  "#004a75",
+        // Tertiary
+        "tertiary":           colorVar("tertiary"),
+        "tertiary-fixed":     colorVar("tertiary-fixed"),
+        "tertiary-fixed-dim": colorVar("tertiary-fixed-dim"),
+        "tertiary-container": colorVar("tertiary-container"),
+        "on-tertiary":        colorVar("on-tertiary"),
+        "on-tertiary-fixed":  colorVar("on-tertiary-fixed"),
+        "on-tertiary-container":      colorVar("on-tertiary-container"),
+        "on-tertiary-fixed-variant":  colorVar("on-tertiary-fixed-variant"),
 
         // Error
-        "error":              "#ffb4ab",
-        "error-container":    "#93000a",
-        "on-error":           "#690005",
-        "on-error-container": "#ffdad6",
+        "error":              colorVar("error"),
+        "error-container":    colorVar("error-container"),
+        "on-error":           colorVar("on-error"),
+        "on-error-container": colorVar("on-error-container"),
 
         // Misc
-        "outline":            "#8a919f",
-        "outline-variant":    "#404753",
-        "inverse-surface":    "#e4e2e1",
-        "inverse-on-surface": "#303030",
+        "outline":            colorVar("outline"),
+        "outline-variant":    colorVar("outline-variant"),
+        "inverse-surface":    colorVar("inverse-surface"),
+        "inverse-on-surface": colorVar("inverse-on-surface"),
 
         // Background
-        "background": "#131313",
+        "background": colorVar("background"),
       },
 
       // ── Typography ────────────────────────────────────────────────────────
@@ -83,27 +91,27 @@ const config: Config = {
         mono:     ["Space Grotesk", "monospace"],
       },
 
-      // ── Border Radius (Stitch: minimal / square-ish) ──────────────────────
+      // ── Border Radius ──────────────────────────────────────────────────────
       borderRadius: {
-        DEFAULT: "0.125rem",
-        sm:      "0.125rem",
-        md:      "0.125rem",
-        lg:      "0.25rem",
-        xl:      "0.5rem",
-        "2xl":   "0.75rem",
+        DEFAULT: "0.5rem",
+        sm:      "0.375rem",
+        md:      "0.5rem",
+        lg:      "0.75rem",
+        xl:      "1rem",
+        "2xl":   "1.25rem",
         full:    "9999px",
       },
 
       // ── Background images / gradients ─────────────────────────────────────
       backgroundImage: {
-        "primary-gradient": "linear-gradient(to right, #a5c8ff, #2792ff)",
-        "hero-overlay":     "linear-gradient(to bottom, transparent, rgba(19,19,19,0.8), #131313)",
+        "primary-gradient": "linear-gradient(to right, var(--gradient-primary-from), var(--gradient-primary-to))",
+        "hero-overlay":     "linear-gradient(to bottom, transparent, var(--hero-overlay-mid), var(--hero-overlay-end))",
         "bento-gradient":   "linear-gradient(135deg, rgba(165,200,255,0.05) 0%, rgba(39,146,255,0.05) 100%)",
       },
 
       // ── Box shadows ───────────────────────────────────────────────────────
       boxShadow: {
-        "blue-glow": "0 0 8px #a5c8ff",
+        "blue-glow": "0 0 8px rgb(var(--primary))",
         "card-hover": "0 20px 40px -10px rgba(39,146,255,0.08)",
       },
     },

@@ -2,23 +2,154 @@
 @tailwind components;
 @tailwind utilities;
 
+/* ── Theme Variables (RGB channels for Tailwind opacity support) ──────── */
+/* Light mode (default) */
+:root {
+  --surface-dim:               221 216 214;
+  --surface:                   253 248 246;
+  --surface-container-lowest:  255 255 255;
+  --surface-container-low:     247 242 240;
+  --surface-container:         241 236 235;
+  --surface-container-high:    235 231 229;
+  --surface-container-highest: 229 225 223;
+  --surface-bright:            253 248 246;
+  --surface-variant:           224 226 236;
+  --surface-tint:              0 95 175;
+
+  --on-surface:                27 27 31;
+  --on-surface-variant:        68 71 78;
+  --on-background:             27 27 31;
+
+  --primary:                   0 95 175;
+  --primary-fixed:             212 227 255;
+  --primary-fixed-dim:         165 200 255;
+  --primary-container:         212 227 255;
+  --on-primary:                255 255 255;
+  --on-primary-fixed:          0 28 58;
+  --on-primary-container:      0 28 58;
+  --on-primary-fixed-variant:  0 71 134;
+  --inverse-primary:           165 200 255;
+
+  --secondary:                 86 94 113;
+  --secondary-fixed:           218 226 249;
+  --secondary-fixed-dim:       190 198 220;
+  --secondary-container:       218 226 249;
+  --on-secondary:              255 255 255;
+  --on-secondary-fixed:        19 28 44;
+  --on-secondary-container:    19 28 44;
+  --on-secondary-fixed-variant: 62 71 89;
+
+  --tertiary:                  112 85 116;
+  --tertiary-fixed:            250 216 253;
+  --tertiary-fixed-dim:        221 188 224;
+  --tertiary-container:        250 216 253;
+  --on-tertiary:               255 255 255;
+  --on-tertiary-fixed:         40 19 45;
+  --on-tertiary-container:     40 19 45;
+  --on-tertiary-fixed-variant: 87 62 91;
+
+  --error:                     186 26 26;
+  --error-container:           255 218 214;
+  --on-error:                  255 255 255;
+  --on-error-container:        65 0 2;
+
+  --outline:                   116 119 127;
+  --outline-variant:           196 198 208;
+  --inverse-surface:           48 48 52;
+  --inverse-on-surface:        242 240 244;
+  --background:                253 248 246;
+
+  /* Glass nav (non-RGB, used directly) */
+  --glass-bg:                  rgba(255, 255, 255, 0.80);
+  --glass-shadow:              rgba(0, 0, 0, 0.05);
+
+  /* Gradient endpoints (hex, used directly) */
+  --gradient-primary-from:     #005faf;
+  --gradient-primary-to:       #2792ff;
+  --hero-overlay-mid:          rgba(253, 248, 246, 0.8);
+  --hero-overlay-end:          #fdf8f6;
+}
+
+/* Dark mode */
+.dark {
+  --surface-dim:               19 19 19;
+  --surface:                   19 19 19;
+  --surface-container-lowest:  14 14 14;
+  --surface-container-low:     27 28 28;
+  --surface-container:         31 32 32;
+  --surface-container-high:    42 42 42;
+  --surface-container-highest: 53 53 53;
+  --surface-bright:            57 57 57;
+  --surface-variant:           53 53 53;
+  --surface-tint:              165 200 255;
+
+  --on-surface:                228 226 225;
+  --on-surface-variant:        192 199 214;
+  --on-background:             228 226 225;
+
+  --primary:                   165 200 255;
+  --primary-fixed:             212 227 255;
+  --primary-fixed-dim:         165 200 255;
+  --primary-container:         39 146 255;
+  --on-primary:                0 49 95;
+  --on-primary-fixed:          0 28 58;
+  --on-primary-container:      0 42 83;
+  --on-primary-fixed-variant:  0 71 134;
+  --inverse-primary:           0 95 175;
+
+  --secondary:                 255 249 239;
+  --secondary-fixed:           255 225 109;
+  --secondary-fixed-dim:       233 196 0;
+  --secondary-container:       255 219 60;
+  --on-secondary:              58 48 0;
+  --on-secondary-fixed:        34 27 0;
+  --on-secondary-container:    114 95 0;
+  --on-secondary-fixed-variant: 84 70 0;
+
+  --tertiary:                  150 204 255;
+  --tertiary-fixed:            206 229 255;
+  --tertiary-fixed-dim:        150 204 255;
+  --tertiary-container:        91 150 201;
+  --on-tertiary:               0 51 83;
+  --on-tertiary-fixed:         0 29 50;
+  --on-tertiary-container:     0 44 72;
+  --on-tertiary-fixed-variant: 0 74 117;
+
+  --error:                     255 180 171;
+  --error-container:           147 0 10;
+  --on-error:                  105 0 5;
+  --on-error-container:        255 218 214;
+
+  --outline:                   138 145 159;
+  --outline-variant:           64 71 83;
+  --inverse-surface:           228 226 225;
+  --inverse-on-surface:        48 48 48;
+  --background:                19 19 19;
+
+  /* Glass nav */
+  --glass-bg:                  rgba(27, 28, 28, 0.75);
+  --glass-shadow:              rgba(0, 0, 0, 0.30);
+
+  /* Gradient endpoints */
+  --gradient-primary-from:     #a5c8ff;
+  --gradient-primary-to:       #2792ff;
+  --hero-overlay-mid:          rgba(19, 19, 19, 0.8);
+  --hero-overlay-end:          #131313;
+}
+
 /* ── Base Reset ────────────────────────────────────────────────────────── */
 @layer base {
   html {
     @apply bg-surface text-on-surface font-body antialiased;
-    /* Force dark mode always (Stitch design is dark-first) */
   }
 
   body {
     @apply bg-surface text-on-surface;
+    transition: background-color 0.3s ease, color 0.3s ease;
   }
 
   ::selection {
     @apply bg-primary text-on-primary;
-  }
-
-  * {
-    @apply border-outline-variant;
   }
 
   /* Smooth scrollbar */
@@ -42,7 +173,7 @@
 
   /* Glassmorphism nav */
   .glass-nav {
-    background: rgba(27, 28, 28, 0.75);
+    background: var(--glass-bg);
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
   }
@@ -55,18 +186,19 @@
   /* Primary gradient text */
   .gradient-text {
     @apply text-transparent bg-clip-text;
-    background-image: linear-gradient(to right, #a5c8ff, #2792ff);
+    background-image: linear-gradient(to right, var(--gradient-primary-from), var(--gradient-primary-to));
   }
 
   /* Glowing dot */
   .pulse-dot {
     @apply w-2 h-2 rounded-full bg-primary;
-    box-shadow: 0 0 8px #a5c8ff;
+    box-shadow: 0 0 8px rgb(var(--primary));
   }
 
   /* Card base */
   .card {
-    @apply bg-surface rounded-xl border border-outline-variant/10 transition-all duration-300;
+    @apply bg-surface rounded-xl border border-outline-variant transition-all duration-300;
+    border-color: rgb(var(--outline-variant) / 0.1);
   }
 
   .card:hover {
