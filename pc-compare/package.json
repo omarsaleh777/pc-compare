@@ -13,8 +13,6 @@
     "postinstall": "prisma generate"
   },
   "dependencies": {
-    "@anthropic-ai/sdk": "^0.80.0",
-    "@google/generative-ai": "^0.24.1",
     "@prisma/adapter-better-sqlite3": "^7.6.0",
     "@prisma/client": "^5.22.0",
     "better-sqlite3": "^12.8.0",

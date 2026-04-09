@@ -14,13 +14,10 @@ interface Product {
   imageUrl: string;
   affiliateUrl: string;
   specs: string;
-  description: string | null;
   lastUpdated: Date;
 }
 
 export default function ProductDetailClient({ product }: { product: Product }) {
-  const [aiDescription, setAiDescription] = useState(product.description || "");
-  const [loadingAi, setLoadingAi] = useState(false);
   const [compareIds, setCompareIds] = useState<string[]>([]);
 
   useEffect(() => {
@@ -29,22 +26,6 @@ export default function ProductDetailClient({ product }: { product: Product }) {
 
   const specs = JSON.parse(product.specs) as Record<string, string>;
   const isInCompare = compareIds.includes(product.id);
-
-  async function handleGenerateDescription() {
-    setLoadingAi(true);
-    try {
-      const res = await fetch("/api/ai/describe", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ productId: product.id }),
-      });
-      const data = await res.json();
-      setAiDescription(data.description);
-    } catch {
-      setAiDescription("Failed to generate description.");
-    }
-    setLoadingAi(false);
-  }
 
   function handleToggleCompare() {
     const newIds = toggleCompare(product.id);
@@ -114,22 +95,6 @@ export default function ProductDetailClient({ product }: { product: Product }) {
               ))}
             </tbody>
           </table>
-
-          {/* AI Description */}
-          <div className="mb-6">
-            <h2 className="font-bold mb-2">AI Description</h2>
-            {aiDescription ? (
-              <p className="text-sm text-gray-700">{aiDescription}</p>
-            ) : (
-              <button
-                onClick={handleGenerateDescription}
-                disabled={loadingAi}
-                className="text-sm bg-gray-100 hover:bg-gray-200 py-2 px-4 rounded"
-              >
-                {loadingAi ? "Generating..." : "Generate AI Description"}
-              </button>
-            )}
-          </div>
 
           <p className="text-xs text-gray-400">
             Last updated: {new Date(product.lastUpdated).toLocaleDateString()}

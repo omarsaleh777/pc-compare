@@ -18,8 +18,6 @@ export default function ComparePage() {
   const [products, setProducts] = useState<Product[]>([]);
   const [compareIds, setCompareIds] = useState<string[]>([]);
   const [loading, setLoading] = useState(true);
-  const [aiSummary, setAiSummary] = useState("");
-  const [loadingAi, setLoadingAi] = useState(false);
 
   useEffect(() => {
     const ids = getCompareIds();
@@ -43,22 +41,6 @@ export default function ComparePage() {
     const newIds = toggleCompare(id);
     setCompareIds([...newIds]);
     setProducts((prev) => prev.filter((p) => p.id !== id));
-  }
-
-  async function handleAiSummary() {
-    setLoadingAi(true);
-    try {
-      const res = await fetch("/api/ai/describe", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ compareIds }),
-      });
-      const data = await res.json();
-      setAiSummary(data.summary || data.description);
-    } catch {
-      setAiSummary("Failed to generate summary.");
-    }
-    setLoadingAi(false);
   }
 
   return (
@@ -140,24 +122,6 @@ export default function ComparePage() {
           </div>
 
           <CompareTable products={products} />
-
-          {/* AI Summary */}
-          <div className="mt-6">
-            {aiSummary ? (
-              <div className="border rounded-lg p-4">
-                <h3 className="font-bold mb-2">AI Comparison Summary</h3>
-                <p className="text-sm text-gray-700">{aiSummary}</p>
-              </div>
-            ) : (
-              <button
-                onClick={handleAiSummary}
-                disabled={loadingAi || products.length < 2}
-                className="bg-gray-100 hover:bg-gray-200 py-2 px-4 rounded text-sm disabled:opacity-50"
-              >
-                {loadingAi ? "Generating..." : "Generate AI Comparison Summary"}
-              </button>
-            )}
-          </div>
         </>
       )}
     </main>
